@@ -10,9 +10,19 @@ There are now all sorts of extensions for OOP and other stuff in the latest vers
 
 ## Installing Ada
 
-I'm using the [GNAT](https://gcc.gnu.org/wiki/GNAT) GCC-based compiler. You can install this via `sudo apt install gprbuild gdb` on an Ubuntu-based OS.
+I'm using the [GNAT](https://gcc.gnu.org/wiki/GNAT) GCC-based compiler. You can install this via `sudo apt install gnat gprbuild gdb ada-reference-manual-2012` on an Ubuntu-based OS.
 
 ## Setting up VSCode
 
 You can get the [Ada & SPARK plugin](https://marketplace.visualstudio.com/items?itemName=AdaCore.ada) via `ctrl + p` and pasting `ext install AdaCore.ada`.
 
+## Building and running
+
+I chose a very simple approach -- each day's code is a single file, and building/running goes like this:
+
+```shell
+gprbuild day01.adb  --root-dir=. --relocate-build-tree=bin
+./bin/day01
+```
+
+This may not be using the compiler CLI as intended, but it seems to work for now!
