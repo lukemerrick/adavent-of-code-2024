@@ -21,7 +21,7 @@ You can get the [Ada & SPARK plugin](https://marketplace.visualstudio.com/items?
 I chose a very simple approach -- each day's code is a single file, and building/running goes like this:
 
 ```shell
-gprbuild day01.adb  --root-dir=. --relocate-build-tree=bin
+gnatmake day01.adb -D obj/ -o bin/day01
 ./bin/day01
 ```
 
