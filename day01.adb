@@ -68,10 +68,10 @@ procedure Day01 is
    end Part_Two;
 
    -- Define our variables.
-   Left, Right : Number_Array;
-   File_Name   : constant String := "input/day01.txt";
+   Left, Right                : Number_Array;
+   File_Name                  : constant String := "input/day01.txt";
    Solution_One, Solution_Two : Natural;
-   Start_Time, End_Time : Time;
+   Start_Time, End_Time       : Time;
 
 begin
    Start_Time := Clock;
@@ -79,7 +79,7 @@ begin
    Number_Array_Sort (Left);
    Number_Array_Sort (Right);
    Solution_One := Part_One (Left, Right);
-   Solution_Two := Part_Two(Left, Right);
+   Solution_Two := Part_Two (Left, Right);
    End_Time := Clock;
    Put_Line ("Part one: " & Natural'Image (Solution_One));
    Put_Line ("Part two: " & Natural'Image (Solution_Two));
