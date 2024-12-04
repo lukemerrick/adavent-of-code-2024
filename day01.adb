@@ -1,5 +1,6 @@
-with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Text_IO;   use Ada.Text_IO;
 with Ada.Containers.Generic_Array_Sort;
+with Ada.Real_Time; use Ada.Real_Time;
 
 procedure Day01 is
    -- Go overboard with types.
@@ -48,17 +49,17 @@ procedure Day01 is
    -- Define a function to compute similarity score, solving part 2.
    function Part_Two (Sorted_Left, Sorted_Right : Number_Array) return Natural
    is
-      I_Right  : Line_Num := 1;
+      I_Right          : Line_Num := 1;
       Similarity_Score : Natural := 0;
    begin
       for Left_Val of Sorted_Left loop
          -- Advance until right is not less than left.
-         while Sorted_Right(I_Right) < Left_Val loop
+         while Sorted_Right (I_Right) < Left_Val loop
             I_Right := I_Right + 1;
          end loop;
 
          -- Do all similarity.
-         while Sorted_Right(I_Right) = Left_Val loop
+         while Sorted_Right (I_Right) = Left_Val loop
             Similarity_Score := Similarity_Score + Left_Val;
             I_Right := I_Right + 1;
          end loop;
@@ -67,12 +68,24 @@ procedure Day01 is
    end Part_Two;
 
    -- Define our variables.
-   Left, Right     : Number_Array;
-   File_Name : constant String := "input/day01.txt";
+   Left, Right : Number_Array;
+   File_Name   : constant String := "input/day01.txt";
+   Solution_One, Solution_Two : Natural;
+   Start_Time, End_Time : Time;
+
 begin
+   Start_Time := Clock;
    Read_Input (File_Name, Left, Right);
    Number_Array_Sort (Left);
    Number_Array_Sort (Right);
-   Put_Line (Natural'Image (Part_One (Left, Right)));
-   Put_Line (Natural'Image (Part_Two (Left, Right)));
+   Solution_One := Part_One (Left, Right);
+   Solution_Two := Part_Two(Left, Right);
+   End_Time := Clock;
+   Put_Line ("Part one: " & Natural'Image (Solution_One));
+   Put_Line ("Part two: " & Natural'Image (Solution_Two));
+   Put_Line
+     ("Procedure took"
+      & Duration'Image (To_Duration (End_Time - Start_Time))
+      & " seconds");
+
 end Day01;
