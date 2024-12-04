@@ -70,23 +70,9 @@ procedure Day01 is
    Left, Right     : Number_Array;
    File_Name : constant String := "input/day01.txt";
 begin
-   -- Read the input file.
-   --  Open (F, In_File, File_Name);
-   --  for I in Line_Num loop
-   --     Line := Get_Line (F);
-   --     Left (I) := Number'Value ((Line (Left_Number_Char_Range)));
-   --     Right (I) := Number'Value ((Line (Right_Number_Char_Range)));
-   --  end loop;
-   --  Close (F);
    Read_Input (File_Name, Left, Right);
-
-   -- Sort the left and right arrays.
    Number_Array_Sort (Left);
    Number_Array_Sort (Right);
-
-   -- Compute the differences, solving part 1.
    Put_Line (Natural'Image (Part_One (Left, Right)));
-
-   -- Compute similarity score, solving part 2.
    Put_Line (Natural'Image (Part_Two (Left, Right)));
 end Day01;
