@@ -3,7 +3,7 @@
 
 ## Why Ada
 
-This year I'm going to attempt to learn Ada via Advent of Code. Ada is not a super popular language, but it is an interesting option because it picks up on several ideas from Wirth's languages but takes things several steps further when it comes to being explicit and safe. There's no crazy fancy memory management model like Rust, but it does have a pretty sophisiticated typing system equivalent to the `NewType` feature recently added to Python typing.
+This year I'm going to attempt to learn Ada via Advent of Code. Ada is not a super popular language, but it is an interesting option because it picks up on several ideas from Wirth's languages but takes things several steps further when it comes to being explicit and safe. There's no crazy fancy memory management model like Rust, but it does have a pretty sophisiticated typing system -- so far I've really liked the support for things equivalent to the `NewType` feature recently added to Python typing.
 
 There are now all sorts of extensions for OOP and other stuff in the latest versions of Ada, but at its core the langauge appears at first blush somewhat simpler and more opinionated than C++, which is sits in contrast to.
 
