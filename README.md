@@ -7,6 +7,10 @@ This year I'm going to attempt to learn Ada via Advent of Code. Ada is not a sup
 
 There are now all sorts of extensions for OOP and other stuff in the latest versions of Ada, but at its core the langauge appears at first blush somewhat simpler and more opinionated than C++, which is sits in contrast to.
 
+## Better Ada code
+
+I'm an Ada newbie. If you want to see more experienced Ada programmers tackle AoC, check out the [Advent of Code thread on the Ada forum](https://forum.ada-lang.io/t/advent-of-code-2024/1500). There's also a nice little [charity thing from AdaCore](https://blog.adacore.com/announcing-advent-of-ada-2024-coding-for-a-cause) going with that thread, which I think is lovely.
+
 
 ## Installing Ada
 
