@@ -24,14 +24,6 @@ procedure Day04 is
          while Char /= ASCII.LF loop
             Character_IO.Read (F, Char);
          end loop;
-         Put_Line ("Size: " & Num_Bytes'Image);
-         Put_Line
-           ("Chars per line: "
-            & Natural'Image (Natural (Character_IO.Index (F)) - 1));
-         Put_Line
-           ("Lines: "
-            & Natural'Image
-                (Num_Bytes / (Natural (Character_IO.Index (F)) - 1)));
       end;
       declare
          Chars_Per_Line : constant Natural :=
@@ -39,31 +31,102 @@ procedure Day04 is
          Lines          : constant Natural := Num_Bytes / Chars_Per_Line;
          -- NOTE: Chars_Per_Line -1 due to the newline being trimmed.
          Result         : Letter_Grid (1 .. Lines, 1 .. Chars_Per_Line - 1);
-         I, J           : Natural := 1;
+         Line           : Natural := 1;
          Char           : Character;
       begin
          Character_IO.Set_Index (F, 1);
-         while not Character_IO.End_Of_File (F) loop
+         for I in 1 .. Num_Bytes loop
             Character_IO.Read (F, Char);
             if Char = ASCII.LF then
-               -- End of line.
-               I := I + 1;
-               J := 1;
+               Line := Line + 1;
             else
-               Result (I, J) := Char;
+               declare
+                  Column : Natural := I mod Chars_Per_Line;
+               begin
+                  Result (Line, Column) := Char;
+               end;
             end if;
          end loop;
          Character_IO.Close (F);
          return Result;
       end;
    end Read_Grid;
-   Part_One: Natural := 0;
-   Part_Two: Natural := 0;
+
+   function Count_From_X
+     (Grid : Letter_Grid; I : Natural; J : Natural) return Natural
+   is
+      Result : Natural := 0;
+   begin
+      for Row_Sign in -1 .. 1 loop
+         for Col_Sign in -1 .. 1 loop
+            if not (Row_Sign = 0 and then Col_Sign = 0) then
+               declare
+                  I_Final    : Integer := I + Row_Sign * 3;
+                  J_Final    : Integer := J + Col_Sign * 3;
+                  I_Inbounds : Boolean :=
+                    I_Final >= 1 and then I_Final <= Grid'Last(1);
+                  J_Inbounds : Boolean :=
+                    J_Final >= 1 and then J_Final <= Grid'Last(2);
+                  Hit        : Boolean :=
+                    I_Inbounds
+                    and then J_Inbounds
+                    and then Grid (I + Row_Sign * 1, J + Col_Sign * 1) = 'M'
+                    and then Grid (I + Row_Sign * 2, J + Col_Sign * 2) = 'A'
+                    and then Grid (I + Row_Sign * 3, J + Col_Sign * 3) = 'S';
+               begin
+                  if Hit then
+                     Result := Result + 1;
+                  end if;
+               end;
+            end if;
+         end loop;
+      end loop;
+      return Result;
+   end Count_From_X;
+
+   function Count_From_A
+     (Grid : Letter_Grid; I : Natural; J : Natural) return Boolean
+   is
+      Signs      : constant array (Natural range <>) of Integer := (-1, 1);
+      I_Inbounds : constant Boolean := I >= 2 and then I <= Grid'Last(1) - 1;
+      J_Inbounds : constant Boolean := J >= 2 and then J <= Grid'Last(2) - 1;
+   begin
+      if not (I_Inbounds and then J_Inbounds) then
+         return False;
+      end if;
+      return
+        -- Top left and bottom right.
+        ((Grid (I - 1, J - 1) = 'M' and then Grid (I + 1, J + 1) = 'S')
+         or (Grid (I - 1, J - 1) = 'S' and then Grid (I + 1, J + 1) = 'M'))
+        -- Top right and bottom left.
+        and then ((Grid (I + 1, J - 1) = 'M'
+                   and then Grid (I - 1, J + 1) = 'S')
+                  or (Grid (I + 1, J - 1) = 'S'
+                      and then Grid (I - 1, J + 1) = 'M'));
+   end Count_From_A;
+
+   Part_One             : Natural := 0;
+   Part_Two             : Natural := 0;
    Start_Time, End_Time : Time;
    File_Name            : constant String := "input/day04.txt";
-   Grid                 : Letter_Grid := Read_Grid (File_Name);
+   Grid                 : constant Letter_Grid := Read_Grid (File_Name);
 begin
    Start_Time := Clock;
+   for I in Grid'Range(1) loop
+      for J in Grid'Range(2) loop
+         declare
+            Char : Character := Grid (I, J);
+         begin
+            if Char = 'X' then
+               Part_One :=
+                 Part_One + Count_From_X (Grid => Grid, I => I, J => J);
+            end if;
+            if Char = 'A' and Count_From_A (Grid => Grid, I => I, J => J) then
+               Part_Two := Part_Two + 1;
+            end if;
+         end;
+      end loop;
+   end loop;
    End_Time := Clock;
    Put_Line ("Part one: " & Natural'Image (Part_One));
    Put_Line ("Part two: " & Natural'Image (Part_Two));
